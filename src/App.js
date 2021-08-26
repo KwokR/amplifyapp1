@@ -2,7 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import awsconfig from './aws-exports';
 import { AmplifySignOut, withAuthenticator } from '@aws-amplify/ui-react';
-import Amplify, { PubSub } from 'aws-amplify';
+import Amplify, { Auth, PubSub } from 'aws-amplify';
 import { AWSIoTProvider } from '@aws-amplify/pubsub/lib/Providers';
 
 Amplify.configure(awsconfig)
