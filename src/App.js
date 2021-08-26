@@ -7,21 +7,7 @@ import { AWSIoTProvider } from '@aws-amplify/pubsub/lib/Providers';
 
 Amplify.configure(awsconfig)
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <h2>My App Content </h2>
-        <p> This is a paragraph </p>
-        <AmplifySignOut />
-      </header>
-    </div>
-  );
-}
-
-export default withAuthenticator(App);
-
-//This doesn't really do anything here, but the cognitoIdentityId was used for attaching the policy
+//get the cognito id with auth module
 Auth.currentCredentials().then(info => {
   const cognitoIdentityId = info._identityId;
   console.log("cognito identity id", cognitoIdentityId);
@@ -37,3 +23,18 @@ PubSub.subscribe('myTopic').subscribe({
     error: error => console.error(error),
     close: () => console.log('Done'),
 });
+
+function App() {
+  return (
+    <div className="App">
+      <header className="App-header">
+        <h2>My App Content </h2>
+        <p> This is a paragraph </p>
+        <AmplifySignOut />
+      </header>
+    </div>
+  );
+}
+
+export default withAuthenticator(App);
+
