@@ -8,7 +8,7 @@ import { AWSIoTProvider } from '@aws-amplify/pubsub/lib/Providers';
 Amplify.configure(awsconfig)
 Amplify.addPluggable(new AWSIoTProvider({
      aws_pubsub_region: 'us-west-2',
-     aws_pubsub_endpoint: 'wss:a351g8i6j3ec9s-ats.iot.us-west-2.amazonaws.com/mqtt',
+     aws_pubsub_endpoint: 'wss://a351g8i6j3ec9s-ats.iot.us-west-2.amazonaws.com/mqtt',
    }));
 
 function App() {
