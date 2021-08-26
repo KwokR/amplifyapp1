@@ -7,6 +7,12 @@ import { AWSIoTProvider } from '@aws-amplify/pubsub/lib/Providers';
 
 Amplify.configure(awsconfig)
 
+//This doesn't really do anything here, but the cognitoIdentityId was used for attaching the policy
+Auth.currentCredentials().then(info => {
+  const cognitoIdentityId = info._identityId;
+  console.log("cognito identity id", cognitoIdentityId);
+});
+
 Amplify.addPluggable(new AWSIoTProvider({
      aws_pubsub_region: 'us-west-2',
      aws_pubsub_endpoint: 'wss://a351g8i6j3ec9s-ats.iot.us-west-2.amazonaws.com/mqtt',
