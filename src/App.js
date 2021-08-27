@@ -1,9 +1,12 @@
-import logo from './logo.svg';
 import './App.css';
 import awsconfig from './aws-exports';
 import { AmplifySignOut, withAuthenticator } from '@aws-amplify/ui-react';
 import Amplify, { Auth, PubSub } from 'aws-amplify';
 import { AWSIoTProvider } from '@aws-amplify/pubsub/lib/Providers';
+import Header from './components/Header';
+import Tasks from './components/Tasks';
+import { useState } from "react";
+import AddTask from './components/AddTask'
 
 Amplify.configure(awsconfig)
 
@@ -25,16 +28,61 @@ PubSub.subscribe('myTopic').subscribe({
 });
 
 function App() {
+  const [showAddTask, setShowAddTask] = useState(false)
+  const [tasks, setTasks]= useState([
+    {
+        id: 1,
+        text: 'Doc appt',
+        day: 'Feb 1, 2021',
+        reminder: true,
+    },
+    {
+        id: 2,
+        text: 'puppy shower',
+        day: 'March 1, 2021',
+        reminder: false
+    },
+    {
+        id: 3,
+        text: 'Groceries',
+        day: 'April 1, 2021',
+        reminder: true,
+    },
+
+]);
+//Add task
+const addTask = (task) => {
+  const id = Math.floor(Math.random()*10000) + 1
+  const newTask = {id, ...task}
+  setTasks([...tasks,newTask]) //copies the existing list ...tasks and addes the new record (newTask)
+}
+//Delete tasks
+const deleteTask = (id) =>{
+  //console.log('delete', id)
+  setTasks(tasks.filter((task)=>task.id !== id))
+}
+//toggle reminder
+const toggleReminder = (id) => {
+  setTasks(tasks.map((task) => 
+    task.id === id ? {...task, reminder:
+      !task.reminder}: task))
+}
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <h2>My App Content </h2>
-        <p> This is a paragraph </p>
-        <AmplifySignOut />
-      </header>
+    <div className="container">
+      <Header  onAdd={() => setShowAddTask(
+        !showAddTask)} showAdd={showAddTask}/>
+
+      {showAddTask && <AddTask onAdd={addTask}/>}
+
+      { tasks.length > 0 ? 
+        <Tasks tasks={tasks} onDelete={deleteTask} onToggle={toggleReminder}/> : 
+        'No Tasks To Show' }
+      <AmplifySignOut /> 
     </div>
   );
 }
-
+  
 export default withAuthenticator(App);
+// export default (App);
 
